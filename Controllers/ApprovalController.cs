@@ -5,6 +5,7 @@ using Grievance_Management_System.Enum;
 using Grievance_Management_System.Model;
 using Grievance_Management_System.Model.Auth;
 using Grievance_Management_System.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,9 +15,20 @@ namespace Grievance_Management_System.Controllers
     [ApiController]
     public class ApprovalController(GrievenceDbContext mContext) : ControllerBase
     {
-        [HttpPost("approve-staff")]
+        [Authorize (Roles = "Admin")]
+        [HttpPost("approveStaff")]
         public IActionResult ApproveStaff([FromBody] ApproveStaffDto dto)
         {
+            var allowedStaffRoles = new[]
+            {
+                RoleEnum.Staff,
+                RoleEnum.HOD,
+                RoleEnum.Advisor,
+                RoleEnum.Principal
+             };
+
+            if (!allowedStaffRoles.Contains(dto.Role))
+                return BadRequest("Invalid staff role");
 
             StaffSignUp signupRequest = mContext.StaffSignUp
                 .FirstOrDefault(x => x.Id == dto.SignupRequestId);
@@ -25,7 +37,7 @@ namespace Grievance_Management_System.Controllers
                 return NotFound(ErrorConstant.NotFound);
 
             if (signupRequest.IsApproved)
-                return BadRequest(ErrorConstant.AlreadyApproved); 
+                return BadRequest(ErrorConstant.AlreadyApproved);
 
             bool userExists = mContext.Users.Any(u => u.Email == signupRequest.Email);
 
@@ -56,7 +68,9 @@ namespace Grievance_Management_System.Controllers
 
             return Ok(ErrorConstant.Approved);
         }
-        [HttpPost("approve-student")]
+
+        [Authorize(Roles = "Staff")]
+        [HttpPost("approveStudent")]
         public IActionResult ApproveStudent([FromBody] ApproveStudentDto dto)
         {
             var signUpRequest = mContext.StudentSignUp
@@ -90,7 +104,7 @@ namespace Grievance_Management_System.Controllers
 
             var student = new Student
             {
-                RollNo = signUpRequest.RollNo, 
+                RollNo = signUpRequest.RollNo,
                 Name = signUpRequest.Name,
                 Email = signUpRequest.Email,
                 PhoneNumber = dto.PhoneNumber,

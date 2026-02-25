@@ -1,11 +1,12 @@
 ﻿using Grievance_Management_System.AppDbContext;
+using Grievance_Management_System.Constants;
+using Grievance_Management_System.Enum;
 using Grievance_Management_System.Model;
 using Grievance_Management_System.Request;
-using Grievance_Management_System.Enum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Grievance_Management_System.Constants;
 
 namespace Grievance_Management_System.Controllers
 {
@@ -14,11 +15,12 @@ namespace Grievance_Management_System.Controllers
     public class StaffController(GrievenceDbContext mContext) : ControllerBase
     {
         //private readonly GrievenceDbContext mContext;
-        //public StaffController(GrievenceDbContext grievenceDbContext)
+        //public StaffController(GrievenceDbContext grievenceDbContext) 
         //{
         //    mContext = grievenceDbContext;
         //}
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("createStaff")]
 
         public IActionResult CreateStaff([FromBody] StaffRequest staffRequest)
@@ -45,6 +47,7 @@ namespace Grievance_Management_System.Controllers
             return Ok(ErrorConstant.Created);
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         [HttpGet("getAllStaff")]
 
         public IActionResult GetStaffList()

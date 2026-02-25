@@ -12,6 +12,7 @@
         public const string AccountDisabled = "Account is disabled. Contact admin.";
         public const string AccountExist = "Account already exists. Please login.";
         public const string AccountPending = "Signup request already pending approval";
+        public const string Unauthorized = "Invalid credentials";
 
 
     }

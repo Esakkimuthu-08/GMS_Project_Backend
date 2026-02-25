@@ -1,4 +1,5 @@
 ﻿using Grievance_Management_System.AppDbContext;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -9,6 +10,7 @@ namespace Grievance_Management_System.Controllers
     [ApiController]
     public class StudentController (GrievenceDbContext mContext) : ControllerBase
     {
+        [Authorize(Roles = "Staff")]
         [HttpGet ("getAllStudents")]
 
         public IActionResult GetAllStudents()
