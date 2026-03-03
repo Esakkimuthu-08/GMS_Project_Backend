@@ -15,7 +15,7 @@ namespace Grievance_Management_System.Controllers
     [ApiController]
     public class ApprovalController(GrievenceDbContext mContext) : ControllerBase
     {
-        [Authorize (Roles = "Admin")]
+        
         [HttpPost("approveStaff")]
         public IActionResult ApproveStaff([FromBody] ApproveStaffDto dto)
         {

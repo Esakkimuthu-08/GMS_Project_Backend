@@ -20,8 +20,8 @@ namespace Grievance_Management_System.Service
             //what info inside the token
             var claims = new[]
             {
-            new Claim(ClaimTypes.Name, user.Email),
-            new Claim(ClaimTypes.Role, user.Role.ToString())
+            new Claim("Email", user.Email),
+            new Claim("Role", user.Role.ToString())
         };
 
             //Sign the token Prevent modification this is secrete key

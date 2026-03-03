@@ -87,10 +87,10 @@ namespace Grievance_Management_System.Controllers
             return Ok(ErrorConstant.Created);
         }
 
-        [Authorize(Roles = "Admin")]
+        
         [HttpGet("getAllStaffSignUpRequest")]
 
-        public IActionResult getAllStaffSignUpRequest()
+        public IActionResult GetAllStaffSignUpRequest()
         {
             return Ok(mContext.StaffSignUp.ToList());
         }
@@ -146,14 +146,13 @@ namespace Grievance_Management_System.Controllers
             return Ok(ErrorConstant.Created);
 
         }
-        [Authorize(Roles = "Staff")]
         [HttpGet("getAllStudentSignUpRequest")]
 
         public IActionResult GetAllStudentSignUpRequest()
         {
             return Ok(mContext.StudentSignUp.ToList());
         }
-        [Authorize(Roles = "Admin")]
+       
         [HttpGet("getAllUser")]
 
         public IActionResult GetAllUser()
